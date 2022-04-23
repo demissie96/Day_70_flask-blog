@@ -1,4 +1,5 @@
 from os import abort
+from decouple import config
 from flask import Flask, render_template, redirect, url_for, flash, request, abort
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
@@ -14,7 +15,7 @@ from functools import wraps
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = config('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -109,21 +110,6 @@ def admin_only(function):
                 return abort(403)
         
     return decorator_function
-
-
-# def admin_only(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         id_number = 0
-#         print(f'ID number is: {id_number}')
-#         #If id is not 1 then return abort with 403 error
-#         if id_number == 1:
-#             return f(*args, **kwargs)
-            
-#         #Otherwise continue with the route function
-#         return abort(403)
-
-#     return decorated_function
 
 
 @app.route('/')
